@@ -1,4 +1,6 @@
-// Lista simple de productos en Dart (archivo simple para novato)
+// Archivo: productos.dart
+// Lista simple de productos para el proyecto Life Line
+
 class Producto {
   String nombre;
   String imagen;
@@ -7,6 +9,7 @@ class Producto {
   Producto(this.nombre, this.imagen, this.precio);
 }
 
+// Lista de productos disponible en la tienda
 List<Producto> listaProductos = [
   Producto("Crema hidratante", "assets/images/crema.png", 30000),
   Producto("Gorra UV", "assets/images/gorra.png", 25000),
