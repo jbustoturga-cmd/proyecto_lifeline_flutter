@@ -1,38 +1,45 @@
+// lib/future.dart
 import 'package:flutter/material.dart';
 
 class FuturePage extends StatelessWidget {
-  Future<String> fetchFrase() async {
-    // simula una llamada remota
-    await Future.delayed(Duration(seconds: 2));
-    return 'Cada día es una nueva oportunidad 🌤️';
-  }
+  final Color primary = const Color(0xFF4A90E2);
 
   @override
   Widget build(BuildContext context) {
-    final primary = Color(0xFF4A90E2);
     return Scaffold(
-      appBar: AppBar(title: Text('Cargando...'), backgroundColor: primary),
-      body: Center(
-        child: FutureBuilder<String>(
-          future: fetchFrase(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Column(mainAxisSize: MainAxisSize.min, children: [
-                CircularProgressIndicator(color: primary),
-                SizedBox(height: 12),
-                Text('Cargando frase...'),
-              ]);
-            } else if (snapshot.hasError) {
-              return Text('Error al cargar');
-            } else {
-              return Container(
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10),
-                  boxShadow: [BoxShadow(color: primary.withOpacity(0.06), blurRadius: 8)]),
-                child: Text(snapshot.data ?? '', style: TextStyle(fontSize: 18)),
-              );
-            }
-          },
+      backgroundColor: const Color(0xFFF5F7FA),
+      appBar: AppBar(
+        backgroundColor: primary,
+        title: Text("Futuro del proyecto"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Container(
+          padding: EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Ideas Futuristas 🧠🚀",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: primary)),
+              SizedBox(height: 12),
+              Text(
+                "• IA para recomendar productos personalizados.\n"
+                "• Sistema de apoyo emocional con chat anónimo.\n"
+                "• Rutinas de cuidado diarias.\n"
+                "• Tienda con realidad aumentada.\n"
+                "• Comunidad global de mensajes motivacionales.",
+                style: TextStyle(fontSize: 16, height: 1.4),
+              )
+            ],
+          ),
         ),
       ),
     );

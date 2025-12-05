@@ -1,6 +1,7 @@
+// lib/login.dart
 import 'package:flutter/material.dart';
-import 'home.dart';
 import 'registro.dart';
+import 'home.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -8,93 +9,97 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final emailCtrl = TextEditingController();
+  final correoCtrl = TextEditingController();
   final passCtrl = TextEditingController();
 
   @override
   void dispose() {
-    emailCtrl.dispose();
+    correoCtrl.dispose();
     passCtrl.dispose();
     super.dispose();
   }
 
-  void login() {
-    // Simulación simple: si hay texto, entra
-    if (emailCtrl.text.isNotEmpty && passCtrl.text.isNotEmpty) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => HomePage(userName: emailCtrl.text)),
-      );
-    } else {
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text('Error'),
-          content: Text('Ingrese correo y contraseña'),
-          actions: [
-            TextButton(onPressed: () => Navigator.pop(context), child: Text('OK'))
-          ],
-        ),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final primary = Color(0xFF4A90E2);
+    final primary = const Color(0xFF4A90E2);
+
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: Column(
-            children: [
-              SizedBox(height: 20),
-              Image.asset('assets/images/logo.png', height: 100),
-              SizedBox(height: 18),
-              Text('Life Line', style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: primary)),
-              SizedBox(height: 24),
-              Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [BoxShadow(color: primary.withOpacity(0.15), blurRadius: 8)],
+      backgroundColor: const Color(0xFFF4F6F9),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            width: 420,
+            padding: const EdgeInsets.all(28),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 18, offset: Offset(0,6))],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("Life Line", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: primary)),
+                SizedBox(height: 8),
+                Text("Inicia sesión para continuar", style: TextStyle(color: Colors.black54)),
+                SizedBox(height: 22),
+
+                TextField(
+                  controller: correoCtrl,
+                  decoration: InputDecoration(
+                    labelText: "Correo",
+                    hintText: "correo@example.com",
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    isDense: true,
+                    contentPadding: EdgeInsets.symmetric(vertical:12, horizontal:14),
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: emailCtrl,
-                      decoration: InputDecoration(labelText: 'Correo', prefixIcon: Icon(Icons.email)),
-                    ),
-                    SizedBox(height: 10),
-                    TextField(
-                      controller: passCtrl,
-                      obscureText: true,
-                      decoration: InputDecoration(labelText: 'Contraseña', prefixIcon: Icon(Icons.lock)),
-                    ),
-                    SizedBox(height: 14),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(backgroundColor: primary),
-                            onPressed: login,
-                            child: Text('Iniciar sesión'),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 8),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => RegistroPage()));
-                      },
-                      child: Text('Crear cuenta'),
-                    )
-                  ],
+
+                SizedBox(height: 14),
+
+                TextField(
+                  controller: passCtrl,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: "Contraseña",
+                    hintText: "••••••••",
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    isDense: true,
+                    contentPadding: EdgeInsets.symmetric(vertical:12, horizontal:14),
+                  ),
                 ),
-              )
-            ],
+
+                SizedBox(height: 22),
+
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // validación simple
+                      if (correoCtrl.text.isNotEmpty && passCtrl.text.isNotEmpty) {
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomePage()));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Complete correo y contraseña')));
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primary,
+                      padding: EdgeInsets.symmetric(vertical:14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    child: Text("Iniciar sesión", style: TextStyle(fontSize:16)),
+                  ),
+                ),
+
+                SizedBox(height: 12),
+
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => RegistroPage()));
+                  },
+                  child: Text("¿No tienes cuenta? Registrarse"),
+                )
+              ],
+            ),
           ),
         ),
       ),
